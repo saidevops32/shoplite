@@ -132,7 +132,7 @@ jobs:
       - name: Generate SBOM (CycloneDX)
         run: |
           docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v "$PWD:/out" aquasec/trivy:0.55.0 image --format cyclonedx --output /out/sbom-${{ matrix.name }}.json "$IMAGE"
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: sbom-${{ matrix.name }}
           path: sbom-${{ matrix.name }}.json
@@ -198,7 +198,7 @@ jobs:
       - name: ZAP baseline scan against the live app
         run: |
           docker run --rm -u root -v "$PWD:/zap/wrk:rw" ghcr.io/zaproxy/zaproxy:stable zap-baseline.py -t "${{ vars.APP_URL }}" -r zap-report.html -I
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         if: always()
         with:
           name: zap-report
@@ -231,7 +231,7 @@ jobs:
       - name: Build release APK
         working-directory: mobile
         run: flutter build apk --release --dart-define=API_BASE=${{ vars.APP_URL }}
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: shoplite-apk
           path: mobile/build/app/outputs/flutter-apk/app-release.apk
