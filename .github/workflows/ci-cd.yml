@@ -20,7 +20,7 @@ jobs:
     name: Build and test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
       - name: Node services
@@ -47,7 +47,7 @@ jobs:
     name: Secret scan (Gitleaks)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with: { fetch-depth: 0 }
       - name: Gitleaks
         run: |
@@ -66,7 +66,7 @@ jobs:
       matrix:
         language: [javascript-typescript, java-kotlin]
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: github/codeql-action/init@v4
         with:
           languages: ${{ matrix.language }}
@@ -80,7 +80,7 @@ jobs:
     name: Dependencies, Dockerfile and config scan
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
       - name: npm audit (runtime packages only)
@@ -123,7 +123,7 @@ jobs:
     env:
       IMAGE: ${{ vars.ACR_NAME }}.azurecr.io/${{ matrix.name }}:${{ github.sha }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Build image
         run: docker build --pull -t "$IMAGE" ./${{ matrix.path }}
       - name: Trivy image scan (fails on HIGH or CRITICAL)
@@ -156,7 +156,7 @@ jobs:
       id-token: write
       contents: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
@@ -184,7 +184,7 @@ jobs:
     if: vars.APP_URL != ''
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - name: Test routing, login, order and payment
         run: bash infra/smoke.sh "${{ vars.APP_URL }}"
 
@@ -211,7 +211,7 @@ jobs:
     if: github.event_name != 'pull_request' && vars.APP_URL != ''
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: "17" }
       - uses: subosito/flutter-action@v2
